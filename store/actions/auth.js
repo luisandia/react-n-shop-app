@@ -1,5 +1,4 @@
-import { AsyncStorage } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 // export const SIGNUP = 'SIGNUP';
 // export const LOGIN = 'LOGIN';
 export const AUTHENTICATE = 'AUTHENTICATE';
@@ -9,31 +8,31 @@ export const SET_DID_TRY_AL = 'SET_DID_TRY_AL';
 let timer;
 
 export const setDidTryAL = () => {
-  return { type: SET_DID_TRY_AL };
+  return {type: SET_DID_TRY_AL};
 };
 
 export const authenticate = (userId, token, expiryTime) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(setLogoutTimer(expiryTime));
-    dispatch({ type: AUTHENTICATE, userId: userId, token: token });
+    dispatch({type: AUTHENTICATE, userId: userId, token: token});
   };
 };
 
 export const signup = (email, password) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const response = await fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAwgME943HeTkyX9QJak260PNbYZfQI58Q',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB8hHCoND9oDJIxugBvHvUljDo78McPBMg',
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email,
           password: password,
-          returnSecureToken: true
-        })
-      }
+          returnSecureToken: true,
+        }),
+      },
     );
 
     if (!response.ok) {
@@ -52,31 +51,31 @@ export const signup = (email, password) => {
       authenticate(
         resData.localId,
         resData.idToken,
-        parseInt(resData.expiresIn) * 1000
-      )
+        parseInt(resData.expiresIn) * 1000,
+      ),
     );
     const expirationDate = new Date(
-      new Date().getTime() + parseInt(resData.expiresIn) * 1000
+      new Date().getTime() + parseInt(resData.expiresIn) * 1000,
     );
     saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
 };
 
 export const login = (email, password) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const response = await fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAwgME943HeTkyX9QJak260PNbYZfQI58Q',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB8hHCoND9oDJIxugBvHvUljDo78McPBMg',
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email,
           password: password,
-          returnSecureToken: true
-        })
-      }
+          returnSecureToken: true,
+        }),
+      },
     );
 
     if (!response.ok) {
@@ -97,11 +96,11 @@ export const login = (email, password) => {
       authenticate(
         resData.localId,
         resData.idToken,
-        parseInt(resData.expiresIn) * 1000
-      )
+        parseInt(resData.expiresIn) * 1000,
+      ),
     );
     const expirationDate = new Date(
-      new Date().getTime() + parseInt(resData.expiresIn) * 1000
+      new Date().getTime() + parseInt(resData.expiresIn) * 1000,
     );
     saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
@@ -110,7 +109,7 @@ export const login = (email, password) => {
 export const logout = () => {
   clearLogoutTimer();
   AsyncStorage.removeItem('userData');
-  return { type: LOGOUT };
+  return {type: LOGOUT};
 };
 
 const clearLogoutTimer = () => {
@@ -119,8 +118,8 @@ const clearLogoutTimer = () => {
   }
 };
 
-const setLogoutTimer = expirationTime => {
-  return dispatch => {
+const setLogoutTimer = (expirationTime) => {
+  return (dispatch) => {
     timer = setTimeout(() => {
       dispatch(logout());
     }, expirationTime);
@@ -133,7 +132,7 @@ const saveDataToStorage = (token, userId, expirationDate) => {
     JSON.stringify({
       token: token,
       userId: userId,
-      expiryDate: expirationDate.toISOString()
-    })
+      expiryDate: expirationDate.toISOString(),
+    }),
   );
 };

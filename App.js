@@ -1,22 +1,9 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-import ReduxThunk from 'redux-thunk';
 import AppNavigator from './navigation/AppNavigator';
-import authReducer from './store/reducers/auth';
-import cartReducer from './store/reducers/cart';
-import ordersReducer from './store/reducers/orders';
-import productsReducer from './store/reducers/products';
+import storeRedux from './store/storeRedux';
 
-const rootReducer = combineReducers({
-  products: productsReducer,
-  cart: cartReducer,
-  orders: ordersReducer,
-  auth: authReducer,
-});
-
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
-
+const store = storeRedux;
 // const fetchFonts = () => {
 //   return Font.loadAsync({
 //     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),

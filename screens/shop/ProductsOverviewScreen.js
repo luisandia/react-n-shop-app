@@ -1,4 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useState} from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -34,20 +35,34 @@ const ProductsOverviewScreen = (props) => {
     setIsRefreshing(false);
   }, [dispatch, setError]);
 
-  useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', loadProducts);
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation.addListener('focus', loadProducts);
 
-    return () => {
-      unsubscribe();
-    };
-  }, [loadProducts, props.navigation]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    loadProducts().then(() => {
-      setIsLoading(false);
-    });
-  }, [dispatch, loadProducts]);
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, [loadProducts, props.navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      // alert('Screen was focused');
+      // Do something when the screen is focused
+      setIsLoading(true);
+      loadProducts().then(() => {
+        setIsLoading(false);
+      });
+      return () => {
+        // alert('Screen was unfocused');
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [loadProducts]),
+  );
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   loadProducts().then(() => {
+  //     setIsLoading(false);
+  //   });
+  // }, [dispatch, loadProducts]);
 
   const selectItemHandler = (id, title) => {
     props.navigation.navigate('ProductDetail', {

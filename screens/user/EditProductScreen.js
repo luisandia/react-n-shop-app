@@ -107,7 +107,7 @@ const EditProductScreen = (props) => {
     }
 
     setIsLoading(false);
-  }, [dispatch, prodId, formState]);
+  }, [dispatch, prodId, formState, props.navigation, editedProduct]);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -123,7 +123,7 @@ const EditProductScreen = (props) => {
         </HeaderButtons>
       ),
     });
-  }, [submitHandler]);
+  }, [submitHandler, props.navigation]);
 
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
@@ -147,7 +147,6 @@ const EditProductScreen = (props) => {
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
       behavior="padding"
       keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
       <ScrollView>

@@ -106,7 +106,7 @@ const AuthScreen = (props) => {
     <KeyboardAvoidingView
       keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 0}
       style={styles.screen}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      behavior="padding">
       <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
         <Card style={styles.authContainer}>
           <ScrollView>

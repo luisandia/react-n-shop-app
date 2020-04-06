@@ -4,12 +4,12 @@ import {
   FlatList,
   Platform,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useDispatch, useSelector} from 'react-redux';
 import OrderItem from '../../components/shop/OrderItem';
+import CenterMessage from '../../components/UI/CenterMessage';
 import HeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
 import * as ordersActions from '../../store/actions/orders';
@@ -37,9 +37,9 @@ const OrdersScreen = (props) => {
 
   if (orders.length === 0) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>No order found, maybe start ordering some products?</Text>
-      </View>
+      <CenterMessage
+        msg={'No order found, maybe start ordering some products?'}
+      />
     );
   }
 
